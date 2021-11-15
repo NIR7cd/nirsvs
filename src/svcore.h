@@ -16,9 +16,14 @@ void reset_sv(StateVector sv, int state);
 void del_sv(StateVector sv);
 void one_qubit_gate(StateVector sv, int qubit, double complex matrix[4]);
 void x(StateVector sv, int qubit);
+void x2(StateVector sv, int qubit);
+void y(StateVector sv, int qubit);
+void z(StateVector sv, int qubit);
+void phase(StateVector sv, int qubit, double phi);
 void h(StateVector sv, int qubit);
 int measure(StateVector sv, int qubit);
 void write(StateVector sv, int qubit, int value);
 void two_qubit_gate(StateVector sv, int q1, int q2, double complex matrix[16]);
-void cnot(StateVector sv, int q1, int q2);
+void c_one_qubit_gate(StateVector sv, int q1, int q2, double complex matrix[4]);
+void cx(StateVector sv, int q1, int q2);
 

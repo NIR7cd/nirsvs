@@ -10,6 +10,7 @@ int main(int argc, char* argv[]) {
     char gate[10];
     StateVector sv;
     int n=0, q1, q2, readout;
+    double d1;
 
     if (argc > 1) {
         file = fopen(argv[1], "r");
@@ -26,12 +27,25 @@ int main(int argc, char* argv[]) {
         } else if (strcmp(gate, "x") == 0) {
             fscanf(file, "%d", &q1);
             x(sv, q1);
+        } else if (strcmp(gate, "y") == 0) {
+            fscanf(file, "%d", &q1);
+            y(sv, q1);
+        } else if (strcmp(gate, "z") == 0) {
+            fscanf(file, "%d", &q1);
+            z(sv, q1);
+        } else if (strcmp(gate, "phase") == 0) {
+            fscanf(file, "%d %lf", &q1, &d1);
+            phase(sv, q1, d1*PI/180.);
         } else if (strcmp(gate, "h") == 0) {
             fscanf(file, "%d", &q1);
             h(sv, q1);
-        } else if (strcmp(gate, "cnot") == 0) {
+        } else if (strcmp(gate, "cx") == 0) {
             fscanf(file, "%d %d", &q1, &q2);
-            cnot(sv, q1, q2);
+            cx(sv, q1, q2);
+        } else if (strcmp(gate, "cphase") == 0) {
+            fscanf(file, "%d %d %lf", &q1, &q2, &d1);
+            double complex matrix[4] = {1, 0, 0, cexp(I*d1*PI/180.)};
+            c_one_qubit_gate(sv, q1, q2, matrix);
         } else if (strcmp(gate, "measure") == 0) {
             fscanf(file, "%d", &q1);
             readout = measure(sv, q1);
