@@ -147,6 +147,11 @@ void h(StateVector sv, int qubit) {
     one_qubit_gate(sv, qubit, matrix);
 }
 
+void rot(StateVector sv, int qubit, double theta) {
+    double complex matrix [4] = {cos(theta), -sin(theta), sin(theta), cos(theta)};
+    one_qubit_gate(sv, qubit, matrix);
+}
+
 int measure(StateVector sv, int qubit) {
     int i, p, q, result;
     double prob_zero = 0.0;

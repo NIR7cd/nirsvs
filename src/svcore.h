@@ -21,6 +21,7 @@ void y(StateVector sv, int qubit);
 void z(StateVector sv, int qubit);
 void phase(StateVector sv, int qubit, double phi);
 void h(StateVector sv, int qubit);
+void rot(StateVector sv, int qubit, double theta);
 int measure(StateVector sv, int qubit);
 void write(StateVector sv, int qubit, int value);
 void two_qubit_gate(StateVector sv, int q1, int q2, double complex matrix[16]);

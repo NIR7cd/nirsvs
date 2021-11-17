@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
     n = atoi(argv[1]);
     new_sv(&sv, n, 0);
     for (i = 0; i < n; ++i) {
-        x(sv, i);
+        h(sv, i);
     }
     del_sv(sv);
     return 0;

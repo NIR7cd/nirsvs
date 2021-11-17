@@ -36,6 +36,9 @@ int main(int argc, char* argv[]) {
         } else if (strcmp(gate, "phase") == 0) {
             fscanf(file, "%d %lf", &q1, &d1);
             phase(sv, q1, d1*PI/180.);
+        } else if (strcmp(gate, "rot") == 0) {
+            fscanf(file, "%d %lf", &q1, &d1);
+            rot(sv, q1, d1*PI/180.);
         } else if (strcmp(gate, "h") == 0) {
             fscanf(file, "%d", &q1);
             h(sv, q1);
