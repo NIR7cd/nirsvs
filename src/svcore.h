@@ -27,4 +27,5 @@ void write(StateVector sv, int qubit, int value);
 void two_qubit_gate(StateVector sv, int q1, int q2, double complex matrix[16]);
 void c_one_qubit_gate(StateVector sv, int q1, int q2, double complex matrix[4]);
 void cx(StateVector sv, int q1, int q2);
-
+void swap(StateVector sv, int q1, int q2);
+void cswap(StateVector sv, int q1, int q2, int q3);

@@ -19,5 +19,8 @@ bell_experiment: svcore.o
 nh: svcore.o
 	${CC} svcore.o -lm -O3 ${OMP} examples/nh.c -o nh
 
+swap_test: svcore.o
+	${CC} svcore.o -lm -O3 ${OMP} examples/swap_test.c -o swap_test
+
 clean:
 	rm *.o

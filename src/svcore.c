@@ -20,7 +20,6 @@ double drand() {
     return ((double) random_number)/((double) ulmax);
 }
 
-
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
@@ -48,7 +47,7 @@ double drand() {
  * ---    ----
  * 210    3210
  */
-int insert(int n, int bit, int place) {
+inline int insert(int n, int bit, int place) {
     int mask = (1 << place) - 1;
     int back = n & mask;
     int front = n & (~mask);
@@ -199,9 +198,9 @@ void two_qubit_gate(StateVector sv, int q1, int q2, double complex matrix[16]) {
     for (i = 0; i < (sv.n >> 2); ++i) {
         template = insert(insert(i, 0, qmin), 0, qmax);
         p[0] = template;
-        p[1] = template + (1 << q1);
-        p[2] = template + (1 << q2);
-        p[3] = template + (1 << q1) + 1 << q2;
+        p[1] = template + (1 << q2);
+        p[2] = template + (1 << q1);
+        p[3] = template + (1 << q1) + (1 << q2);
         for (j = 0; j < 4; ++j) old[j] = sv.states[p[j]];
         for (j = 0; j < 4; ++j) {
             sv.states[p[j]] = (double complex) 0.;
@@ -243,5 +242,42 @@ void cx(StateVector sv, int q1, int q2) {
         old = sv.states[p];
         sv.states[p] = sv.states[q];
         sv.states[q] = old;
+    }
+}
+
+void swap(StateVector sv, int q1, int q2) {
+    int i, j, template, p1, p2;
+    double complex temp;
+    int qmin = MIN(q1, q2);
+    int qmax = MAX(q1, q2);
+    #pragma omp parallel for
+    for (i = 0; i < (sv.n >> 2); ++i) {
+        template = insert(insert(i, 0, qmin), 0, qmax);
+        p1 = template + (1 << q2);
+        p2 = template + (1 << q1);
+        temp = sv.states[p1];
+        sv.states[p1] = sv.states[p2];
+        sv.states[p2] = temp;
+    }
+}
+
+/*********************
+ * Three qubit gates *
+ *********************/
+
+void cswap(StateVector sv, int q1, int q2, int q3) {
+    int i, template, p1, p2;
+    double complex temp;
+    int qmin = MIN(MIN(q1, q2), q3);
+    int qmax = MAX(MAX(q1, q2), q3);
+    int qmid = q1 + q2 + q3 - qmin - qmax;
+    #pragma omp parallel for
+    for (i = 0; i < (sv.n >> 3); ++i) {
+        template = insert(insert(insert(i, 0, qmin), 0, qmid), 0, qmax);
+        p1 = template + (1 << q1) + (1 << q3);
+        p2 = template + (1 << q1) + (1 << q2);
+        temp = sv.states[p1];
+        sv.states[p1] = sv.states[p2];
+        sv.states[p2] = temp;
     }
 }

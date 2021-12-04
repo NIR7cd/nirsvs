@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
     FILE* file;
     char gate[10];
     StateVector sv;
-    int n=0, q1, q2, readout;
+    int n=0, q1, q2, q3, readout;
     double d1;
 
     if (argc > 1) {
@@ -49,6 +49,12 @@ int main(int argc, char* argv[]) {
             fscanf(file, "%d %d %lf", &q1, &q2, &d1);
             double complex matrix[4] = {1, 0, 0, cexp(I*d1*PI/180.)};
             c_one_qubit_gate(sv, q1, q2, matrix);
+        } else if (strcmp(gate, "swap") == 0) {
+            fscanf(file, "%d %d", &q1, &q2);
+            swap(sv, q1, q2);
+        } else if (strcmp(gate, "cswap") == 0) {
+            fscanf(file, "%d %d %d", &q1, &q2, &q3);
+            cswap(sv, q1, q2, q3);
         } else if (strcmp(gate, "measure") == 0) {
             fscanf(file, "%d", &q1);
             readout = measure(sv, q1);
